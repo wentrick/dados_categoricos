@@ -1,19 +1,15 @@
 ---
-title: |
-  Universidade de Brasília  
-  IE - Departamento de Estatística  
-  Análise de Dados Categorizados - 1/2025  
+title: Lista de Exercícios 1 A - Análise de Dados Categorizados - 1/2025  
+author: Davi Wentrick Feijó 
 output: html_document
 fontsize: 12pt
 ---
-
-# Lista de Exercícios Ia
 
 Estude o tópico 1.1 do capítulo 1 do livro-texto e as notas de aula e resolva os seguintes exercícios:
 
 ------------------------------------------------------------------------
 
-**1. Em cada caso apresentado a seguir, identifique a variável resposta e as variáveis explicativas. Classifique também todas as variáveis quanto ao tipo (qualitativa - nominal ou ordinal, quantitativa - discreta ou contínua):**
+#### **1. Em cada caso apresentado a seguir, identifique a variável resposta e as variáveis explicativas. Classifique também todas as variáveis quanto ao tipo (qualitativa - nominal ou ordinal, quantitativa - discreta ou contínua):**
 
 a)  Atitude em relação ao controle de armas (a favor, contra), gênero (feminino, masculino), educação da mãe (ensino médio, nível superior).\
 
@@ -37,7 +33,7 @@ Qualitativa nominal, qualitativa nominal
 
 ------------------------------------------------------------------------
 
-**2. Qual escala de mensuração é mais apropriada para as seguintes variáveis - nominal ou ordinal?**
+#### **2. Qual escala de mensuração é mais apropriada para as seguintes variáveis - nominal ou ordinal?**
 
 a)  Preferência de partido político do Reino Unido (Trabalhista, Liberal Democrata, Conservador, outro).\
 
@@ -63,9 +59,11 @@ f)  Classificação de um filme com 1 a 5 estrelas, representando (odiei, não g
 
 Ordinal
 
+------------------------------------------------------------------------
+
 > *Exercícios 1 e 2 da 2ª edição do livro-texto (2007) adaptados.*
 
-# Explorando Dados (descritivamente...)
+### Explorando Dados (descritivamente...)
 
 Em cada um dos exercícios a seguir:\
 - identifique as variáveis estudadas e classifique-as quanto ao tipo;\
@@ -75,7 +73,7 @@ Em cada um dos exercícios a seguir:\
 
 ------------------------------------------------------------------------
 
-**3. Considere as distribuições do tipo de combustível doméstico usado em duas cidades, em 2023:**
+#### **3. Considere as distribuições do tipo de combustível doméstico usado em duas cidades, em 2023:**
 
 $$
 \begin{array}{l|cc}
@@ -174,7 +172,7 @@ Na Cidade A, 69,0% das residências utilizam gás, enquanto na Cidade B esse per
 
 ------------------------------------------------------------------------
 
-**4. Uma amostra de 200 habitantes de uma cidade foi coletada para analisar a atitude frente a um certo projeto governamental. O resultado foi o seguinte:**
+#### **4. Uma amostra de 200 habitantes de uma cidade foi coletada para analisar a atitude frente a um certo projeto governamental. O resultado foi o seguinte:**
 
 $$
 \begin{array}{l|ccc|c}
