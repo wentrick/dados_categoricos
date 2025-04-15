@@ -1,0 +1,73 @@
+---
+title: "Lista de Exercícios 1 C"
+author: Davi Wentrick Feijó
+output: 
+  html_document:
+    toc: true
+    toc_depth: 4
+    toc_float: 
+      collapsed: false
+      smooth_scroll: true
+---
+
+Resolver os exercícios 9 , 10 e 16 , páginas 16 a 20 , da $2^{\text {a }}$ edição do livro-texto (2007)
+
+### Exercício 1.9 (p. 16)
+
+Uma amostra de mulheres com sangramento menstrual excessivo tem usado um analgésico para reduzir os efeitos. Um novo analgésico é proposto como mais eficaz. Após o uso:
+
+- 40 mulheres relataram maior alívio com o analgésico padrão  
+- 60 mulheres relataram maior alívio com o novo analgésico
+
+#### a) Hipótese
+
+Teste a hipótese de que a probabilidade de maior alívio com o analgésico padrão é igual à do novo analgésico. Relate e interprete o valor de $P$ para a hipótese alternativa bilateral.  
+*Dica: Expresse as hipóteses com um único parâmetro. Esse é um teste de sinais (sign test).*
+
+#### b) Intervalo de Confiança
+
+Construa e interprete um intervalo de confiança de 95% para a probabilidade de maior alívio com o novo analgésico.
+
+------------------
+
+### Exercício 1.10 (p. 17)
+
+Referente ao exercício anterior: os pesquisadores desejam uma amostra suficientemente grande para estimar a probabilidade de preferência pelo novo analgésico com margem de erro de 0.08, com 95% de confiança.
+
+Se a probabilidade real é 0.75, qual deve ser o tamanho da amostra?
+
+*Dica: Para qual valor de $n$ um intervalo de confiança de 95% tem margem de erro aproximada de 0.08?*
+
+------------------
+
+### Exercício 1.16 (p. 20)
+
+#### a) Função de Log-Verossimilhança
+
+Usando cálculo, é mais fácil maximizar a função log da verossimilhança $L = \log \ell$ do que $\ell$ diretamente. Ambas têm o mesmo ponto de máximo. Calcule $L(\pi)$ para a distribuição binomial (1.1).
+
+#### b) Equação de Verossimilhança
+
+Determine o ponto onde o máximo de $L$ ocorre resolvendo a equação de verossimilhança.  
+Mostre que a estimativa de máxima verossimilhança é $\hat{p} = y/n$.
+
+------------------
+
+### Exercício 1.18 (p. 15) (DESAFIO!)
+
+Para uma proporção amostral $p$ conhecida, mostre que um valor $\pi_0$ para o qual a estatística de teste  
+$$z = \frac{p - \pi_0}{\sqrt{\pi_0(1 - \pi_0)/n}}$$  
+assume um valor fixo $z_0$ (ex: 1.96) é solução da equação:
+
+$$(1 + z_0^2/n) \pi_0^2 + (-2p - z_0^2/n)\pi_0 + p^2 = 0$$
+
+Utilize a fórmula da equação quadrática:
+$$
+x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}
+$$
+
+Obtenha os limites do intervalo de confiança de 95% da Seção 1.3.4 para a probabilidade de sucesso em um ensaio clínico com 9 sucessos em 10 tentativas.
+
+------------------
+
+
