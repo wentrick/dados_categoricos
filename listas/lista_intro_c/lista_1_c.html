@@ -1510,11 +1510,33 @@ valor de <span class="math inline">\(P\)</span> para a hipótese
 alternativa bilateral.<br />
 <em>Dica: Expresse as hipóteses com um único parâmetro. Esse é um teste
 de sinais (sign test).</em></p>
+<pre class="r"><code># Dados
+n &lt;- 100
+k &lt;- 60    # sucessos = casos em que o novo analgesico foi melhor
+
+res &lt;- binom.test(x = k, n = n, p = 0.5, alternative = &quot;two.sided&quot;)
+print(res)</code></pre>
+<pre><code>## 
+##  Exact binomial test
+## 
+## data:  k and n
+## number of successes = 60, number of trials = 100, p-value = 0.05689
+## alternative hypothesis: true probability of success is not equal to 0.5
+## 95 percent confidence interval:
+##  0.4972092 0.6967052
+## sample estimates:
+## probability of success 
+##                    0.6</code></pre>
+<pre><code>## p-value = 0.05688793</code></pre>
 </div>
 <div id="b-intervalo-de-confiança" class="section level4">
 <h4>b) Intervalo de Confiança</h4>
 <p>Construa e interprete um intervalo de confiança de 95% para a
 probabilidade de maior alívio com o novo analgésico.</p>
+<pre class="r"><code>#IC 95% 
+ci &lt;- res$conf.int
+cat(&quot;IC 95% para p:&quot;, round(ci[1],3), &quot;a&quot;, round(ci[2],3), &quot;\n&quot;)</code></pre>
+<pre><code>## IC 95% para p: 0.497 a 0.697</code></pre>
 <hr />
 </div>
 </div>
@@ -1528,6 +1550,20 @@ amostra?</p>
 <p><em>Dica: Para qual valor de <span class="math inline">\(n\)</span>
 um intervalo de confiança de 95% tem margem de erro aproximada de
 0.08?</em></p>
+<pre class="r"><code># Exercício 1.10 (p.17)
+# Queremos margem de erro E = 0.08, nível 95% (z_{α/2} = 1.96), p = 0.75
+
+p0 &lt;- 0.75        # probabilidade suposta
+E  &lt;- 0.08        # margem de erro desejada
+z  &lt;- qnorm(0.975)  # quantil da Normal para 95% → ≈1.96
+
+# fórmula aproximada para tamanho de amostra em proporção:
+n_raw &lt;- (z^2 * p0 * (1 - p0)) / (E^2)
+
+# arredonda para cima, pois n deve ser inteiro
+n &lt;- ceiling(n_raw)</code></pre>
+<pre><code>## Cálculo bruto de n  = 112.54 
+##  Tamanho mínimo n = 113</code></pre>
 <hr />
 </div>
 <div id="exercício-1.16-p.-20" class="section level3">
@@ -1539,12 +1575,41 @@ verossimilhança <span class="math inline">\(L = \log \ell\)</span> do
 que <span class="math inline">\(\ell\)</span> diretamente. Ambas têm o
 mesmo ponto de máximo. Calcule <span class="math inline">\(L(\pi)\)</span> para a distribuição binomial
 (1.1).</p>
+<p>Para <span class="math inline">\(Y\sim\mathrm{Binomial}(n,\pi)\)</span>, a
+verossimilhança é</p>
+<p><span class="math display">\[
+\ell(\pi)
+=\binom{n}{y}\,\pi^y\,(1-\pi)^{\,n-y}.
+\]</span></p>
+<p>Logo a <strong>log-verossimilhança</strong> vale</p>
+<p><span class="math display">\[
+L(\pi)
+=\log\ell(\pi)
+=\log\binom{n}{y}
+\;+\;y\log\pi
+\;+\;(n-y)\log(1-\pi).
+\]</span></p>
 </div>
 <div id="b-equação-de-verossimilhança" class="section level4">
 <h4>b) Equação de Verossimilhança</h4>
 <p>Determine o ponto onde o máximo de <span class="math inline">\(L\)</span> ocorre resolvendo a equação de
 verossimilhança.<br />
 Mostre que a estimativa de máxima verossimilhança é <span class="math inline">\(\hat{p} = y/n\)</span>.</p>
+<p>A derivada de <span class="math inline">\(L(\pi)\)</span> é</p>
+<p><span class="math display">\[
+\frac{dL}{d\pi}
+=\frac{y}{\pi}-\frac{n-y}{1-\pi}.
+\]</span></p>
+<p>Igualando a zero,</p>
+<p><span class="math display">\[
+\frac{y}{\pi}-\frac{n-y}{1-\pi}=0
+\quad\Longrightarrow\quad
+y\,(1-\pi)=\pi\,(n-y)
+\quad\Longrightarrow\quad
+y = n\pi
+\quad\Longrightarrow\quad
+\boxed{\hat\pi=\frac{y}{n}}.
+\]</span></p>
 <hr />
 </div>
 </div>
@@ -1566,6 +1631,67 @@ x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}
 para a probabilidade de sucesso em um ensaio clínico com 9 sucessos em
 10 tentativas.</p>
 <hr />
+<p>Partimos de</p>
+<p><span class="math display">\[
+z_0
+=\frac{p - \pi_0}{\sqrt{\pi_0(1-\pi_0)/n}}
+\;\;\Longrightarrow\;\;
+z_0^2
+=\frac{(p - \pi_0)^2}{\pi_0(1-\pi_0)/n}
+\;\;\Longrightarrow\;\;
+z_0^2\,\frac{\pi_0(1-\pi_0)}{n}=(p-\pi_0)^2.
+\]</span></p>
+<p>Expanda ambos os lados:</p>
+<p><span class="math display">\[
+\frac{z_0^2}{n}\,\bigl(\pi_0 - \pi_0^2\bigr)
+= p^2 - 2p\,\pi_0 + \pi_0^2.
+\]</span></p>
+<p>Reorganizando todos os termos para o lado esquerdo:</p>
+<p><span class="math display">\[
+\underbrace{\Bigl(1 + \frac{z_0^2}{n}\Bigr)}_{a}\,\pi_0^2
+\;+\;\underbrace{\Bigl(-2p - \frac{z_0^2}{n}\Bigr)}_{b}\,\pi_0
+\;+\;\underbrace{p^2}_{c}
+\;=\;0.
+\]</span></p>
+<p>Os coeficientes são:</p>
+<p><span class="math display">\[
+a = 1 + \frac{z_0^2}{n},
+\quad
+b = -2p - \frac{z_0^2}{n},
+\quad
+c = p^2.
+\]</span></p>
+<p>Pela fórmula</p>
+<p><span class="math display">\[
+\pi_0
+= \frac{-b \pm \sqrt{b^2 - 4\,a\,c}}{2\,a}\,.
+\]</span></p>
+<p>Aqui <span class="math inline">\(p=\tfrac{9}{10}=0.9, n=10,
+z_0=1.96\)</span>. Os coeficientes da quadrática são:</p>
+<p><span class="math display">\[
+a = 1 + \frac{1.96^2}{10},\quad
+b = -2(0.9) - \frac{1.96^2}{10},\quad
+c = (0.9)^2.
+\]</span></p>
+<p>A seguir, um chunk em R que calcula numericamente <span class="math inline">\(\pi_L\)</span> e <span class="math inline">\(\pi_U\)</span>:</p>
+<pre class="r"><code># dados
+p &lt;- 9/10
+n &lt;- 10
+z0 &lt;- 1.96
+
+# coeficientes da quadrática
+a &lt;- 1 + z0^2/n
+b &lt;- -2*p - z0^2/n
+c &lt;- p^2
+
+# cálculo das raízes
+disc &lt;- b^2 - 4*a*c
+pi_L &lt;- (-b - sqrt(disc)) / (2*a)
+pi_U &lt;- (-b + sqrt(disc)) / (2*a)
+
+# mostrar resultado
+cat(sprintf(&quot;Intervalo de IC 95%%: [%.3f, %.3f]\n&quot;, pi_L, pi_U))</code></pre>
+<pre><code>## Intervalo de IC 95%: [0.596, 0.982]</code></pre>
 </div>
 
 

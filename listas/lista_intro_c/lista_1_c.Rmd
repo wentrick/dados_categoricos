@@ -1,0 +1,235 @@
+---
+title: "Lista de Exercícios 1 C"
+author: Davi Wentrick Feijó
+output: 
+  html_document:
+    toc: true
+    toc_depth: 4
+    toc_float: 
+      collapsed: false
+      smooth_scroll: true
+---
+
+Resolver os exercícios 9 , 10 e 16 , páginas 16 a 20 , da $2^{\text {a }}$ edição do livro-texto (2007)
+
+### Exercício 1.9 (p. 16)
+
+Uma amostra de mulheres com sangramento menstrual excessivo tem usado um analgésico para reduzir os efeitos. Um novo analgésico é proposto como mais eficaz. Após o uso:
+
+- 40 mulheres relataram maior alívio com o analgésico padrão  
+- 60 mulheres relataram maior alívio com o novo analgésico
+
+#### a) Hipótese
+
+Teste a hipótese de que a probabilidade de maior alívio com o analgésico padrão é igual à do novo analgésico. Relate e interprete o valor de $P$ para a hipótese alternativa bilateral.  
+*Dica: Expresse as hipóteses com um único parâmetro. Esse é um teste de sinais (sign test).*
+
+```{r}
+# Dados
+n <- 100
+k <- 60    # sucessos = casos em que o novo analgesico foi melhor
+
+res <- binom.test(x = k, n = n, p = 0.5, alternative = "two.sided")
+print(res)
+```
+
+
+```{r echo=FALSE}
+# extrair p-value
+cat("p-value =", res$p.value, "\n")
+```
+
+
+#### b) Intervalo de Confiança
+
+Construa e interprete um intervalo de confiança de 95% para a probabilidade de maior alívio com o novo analgésico.
+
+```{r}
+#IC 95% 
+ci <- res$conf.int
+cat("IC 95% para p:", round(ci[1],3), "a", round(ci[2],3), "\n")
+
+```
+
+
+------------------
+
+### Exercício 1.10 (p. 17)
+
+Referente ao exercício anterior: os pesquisadores desejam uma amostra suficientemente grande para estimar a probabilidade de preferência pelo novo analgésico com margem de erro de 0.08, com 95% de confiança.
+
+Se a probabilidade real é 0.75, qual deve ser o tamanho da amostra?
+
+*Dica: Para qual valor de $n$ um intervalo de confiança de 95% tem margem de erro aproximada de 0.08?*
+
+```{r}
+# Exercício 1.10 (p.17)
+# Queremos margem de erro E = 0.08, nível 95% (z_{α/2} = 1.96), p = 0.75
+
+p0 <- 0.75        # probabilidade suposta
+E  <- 0.08        # margem de erro desejada
+z  <- qnorm(0.975)  # quantil da Normal para 95% → ≈1.96
+
+# fórmula aproximada para tamanho de amostra em proporção:
+n_raw <- (z^2 * p0 * (1 - p0)) / (E^2)
+
+# arredonda para cima, pois n deve ser inteiro
+n <- ceiling(n_raw)
+```
+
+
+```{r echo=FALSE}
+# mostrar resultado
+cat("Cálculo bruto de n  =", round(n_raw,2), "\n",
+    "Tamanho mínimo n =", n, "\n")
+
+```
+
+
+------------------
+
+### Exercício 1.16 (p. 20)
+
+#### a) Função de Log-Verossimilhança
+
+Usando cálculo, é mais fácil maximizar a função log da verossimilhança $L = \log \ell$ do que $\ell$ diretamente. Ambas têm o mesmo ponto de máximo. Calcule $L(\pi)$ para a distribuição binomial (1.1).
+
+Para \(Y\sim\mathrm{Binomial}(n,\pi)\), a verossimilhança é
+
+$$
+\ell(\pi)
+=\binom{n}{y}\,\pi^y\,(1-\pi)^{\,n-y}.
+$$
+
+Logo a **log-verossimilhança** vale
+
+$$
+L(\pi)
+=\log\ell(\pi)
+=\log\binom{n}{y}
+\;+\;y\log\pi
+\;+\;(n-y)\log(1-\pi).
+$$
+
+
+#### b) Equação de Verossimilhança
+
+Determine o ponto onde o máximo de $L$ ocorre resolvendo a equação de verossimilhança.  
+Mostre que a estimativa de máxima verossimilhança é $\hat{p} = y/n$.
+
+
+A derivada de \(L(\pi)\) é
+
+$$
+\frac{dL}{d\pi}
+=\frac{y}{\pi}-\frac{n-y}{1-\pi}.
+$$
+
+Igualando a zero,
+
+$$
+\frac{y}{\pi}-\frac{n-y}{1-\pi}=0
+\quad\Longrightarrow\quad
+y\,(1-\pi)=\pi\,(n-y)
+\quad\Longrightarrow\quad
+y = n\pi
+\quad\Longrightarrow\quad
+\boxed{\hat\pi=\frac{y}{n}}.
+$$
+
+------------------
+
+### Exercício 1.18 (p. 15) (DESAFIO!)
+
+Para uma proporção amostral $p$ conhecida, mostre que um valor $\pi_0$ para o qual a estatística de teste  
+$$z = \frac{p - \pi_0}{\sqrt{\pi_0(1 - \pi_0)/n}}$$  
+assume um valor fixo $z_0$ (ex: 1.96) é solução da equação:
+
+$$(1 + z_0^2/n) \pi_0^2 + (-2p - z_0^2/n)\pi_0 + p^2 = 0$$
+
+Utilize a fórmula da equação quadrática:
+$$
+x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}
+$$
+
+Obtenha os limites do intervalo de confiança de 95% da Seção 1.3.4 para a probabilidade de sucesso em um ensaio clínico com 9 sucessos em 10 tentativas.
+
+------------------
+
+
+Partimos de
+
+$$
+z_0
+=\frac{p - \pi_0}{\sqrt{\pi_0(1-\pi_0)/n}}
+\;\;\Longrightarrow\;\;
+z_0^2
+=\frac{(p - \pi_0)^2}{\pi_0(1-\pi_0)/n}
+\;\;\Longrightarrow\;\;
+z_0^2\,\frac{\pi_0(1-\pi_0)}{n}=(p-\pi_0)^2.
+$$
+
+Expanda ambos os lados:
+
+$$
+\frac{z_0^2}{n}\,\bigl(\pi_0 - \pi_0^2\bigr)
+= p^2 - 2p\,\pi_0 + \pi_0^2.
+$$
+
+Reorganizando todos os termos para o lado esquerdo:
+
+$$
+\underbrace{\Bigl(1 + \frac{z_0^2}{n}\Bigr)}_{a}\,\pi_0^2
+\;+\;\underbrace{\Bigl(-2p - \frac{z_0^2}{n}\Bigr)}_{b}\,\pi_0
+\;+\;\underbrace{p^2}_{c}
+\;=\;0.
+$$
+
+Os coeficientes são:
+
+$$
+a = 1 + \frac{z_0^2}{n}, 
+\quad
+b = -2p - \frac{z_0^2}{n}, 
+\quad
+c = p^2.
+$$
+
+Pela fórmula
+
+$$
+\pi_0
+= \frac{-b \pm \sqrt{b^2 - 4\,a\,c}}{2\,a}\,.
+$$
+
+Aqui $p=\tfrac{9}{10}=0.9, n=10, z_0=1.96$. Os coeficientes da quadrática são:
+
+$$
+a = 1 + \frac{1.96^2}{10},\quad
+b = -2(0.9) - \frac{1.96^2}{10},\quad
+c = (0.9)^2.
+$$
+
+A seguir, um chunk em R que calcula numericamente \(\pi_L\) e \(\pi_U\):
+
+```{r ci-quadratica, echo=TRUE}
+# dados
+p <- 9/10
+n <- 10
+z0 <- 1.96
+
+# coeficientes da quadrática
+a <- 1 + z0^2/n
+b <- -2*p - z0^2/n
+c <- p^2
+
+# cálculo das raízes
+disc <- b^2 - 4*a*c
+pi_L <- (-b - sqrt(disc)) / (2*a)
+pi_U <- (-b + sqrt(disc)) / (2*a)
+
+# mostrar resultado
+cat(sprintf("Intervalo de IC 95%%: [%.3f, %.3f]\n", pi_L, pi_U))
+```
+
+
