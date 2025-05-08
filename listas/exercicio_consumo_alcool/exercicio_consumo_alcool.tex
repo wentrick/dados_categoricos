@@ -1,0 +1,164 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Universidade de Brasília ~IE - Departamento de Estatística ~Análise de Dados Categorizados - 1/2025},
+  pdfauthor={Bom Estudo!!!},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Universidade de Brasília ~IE - Departamento de Estatística
+~Análise de Dados Categorizados - 1/2025}
+\author{Bom Estudo!!!}
+\date{29/04/2025}
+
+\begin{document}
+\maketitle
+
+{
+\setcounter{tocdepth}{2}
+\tableofcontents
+}
+\section{Exercício - Consumo de Álcool e Mal Formação
+Congênita}\label{exercuxedcio---consumo-de-uxe1lcool-e-mal-formauxe7uxe3o-conguxeanita}
+
+A tabela a seguir apresenta os resultados de um estudo prospectivo sobre
+consumo de álcool pelas mães e mal formação congênita de seus filhos.
+Após três meses de gravidez, mulheres na amostra completaram um
+questionário sobre consumo de álcool, medido em número médio de drinques
+por dia. Após o nascimento das crianças, foram feitas observações sobre
+a presença ou ausência de mal formação congênita.
+
+\begin{longtable}[]{@{}lrrr@{}}
+\caption{Consumo de Álcool e Mal formação congênita}\tabularnewline
+\toprule\noalign{}
+Consumo & Ausente & Presente & Total \\
+\midrule\noalign{}
+\endfirsthead
+\toprule\noalign{}
+Consumo & Ausente & Presente & Total \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0 & 17066 & 48 & 17114 \\
+\textless1 & 14464 & 38 & 14502 \\
+1-2 & 788 & 5 & 793 \\
+3-5 & 126 & 1 & 127 \\
+\textgreater=6 & 37 & 1 & 38 \\
+\end{longtable}
+
+\subsection{Questões}\label{questuxf5es}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  \textbf{Identifique as variáveis em estudo e classifique quanto ao
+  tipo.}
+\item
+  \textbf{Identifique a variável resposta e a explicativa.}
+\item
+  \textbf{Determine a proporção de presença de mal formação congênita
+  para cada nível de consumo de álcool e analise os resultados obtidos.}
+\item
+  \textbf{Verifique se a presença de mal formação congênita nos bebês
+  está associada ao nível de consumo de álcool das mães a um nível de
+  significância de 5\% e tratando as variáveis como qualitativas
+  nominais.}
+
+  \begin{enumerate}
+  \def\labelenumii{\alph{enumii})}
+  \tightlist
+  \item
+    Comente a decisão tomada considerando o nível de significância
+    solicitado. A decisão seria a mesma para outro nível de
+    significância? Qual seria sua recomendação?\\
+  \item
+    Os pressupostos do teste foram atendidos? O que poderia ser feito?\\
+  \end{enumerate}
+\item
+  \textbf{Refaça o teste utilizado no item 4 agregando categorias para
+  contornar o problema indicado no item 4b.}\\
+  Comente a decisão tomada com relação aos aspectos considerados nos
+  itens 4a e 4b.\\
+\item
+  \textbf{Os resultados dos testes realizados permitem concluir sobre a
+  existência de tendências na associação entre as variáveis considerando
+  o nível de consumo de álcool? Justifique sua resposta.}
+\item
+  \textbf{Construa tabelas 2 × 2 que permitam medir a associação entre
+  presença de mal formação congênita para cada nível de consumo de
+  álcool em relação a ausência de consumo de álcool. Comente os
+  resultados. Eles sugerem alguma tendência?}
+\end{enumerate}
+
+\end{document}

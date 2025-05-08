@@ -1,0 +1,94 @@
+---
+title: "Exercício - Consumo de Álcool e Mal Formação Congênita"
+author: "Davi Wentrick Feijó - 200016806"
+date: "`r format(Sys.Date(), '%d/%m/%Y')`"
+output:
+  html_document:
+    toc: true
+    number_sections: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+library(knitr)
+```
+
+A tabela a seguir apresenta os resultados de um estudo prospectivo sobre consumo de álcool pelas mães e mal formação congênita de seus filhos. Após três meses de gravidez, mulheres na amostra completaram um questionário sobre consumo de álcool, medido em número médio de drinques por dia. Após o nascimento das crianças, foram feitas observações sobre a presença ou ausência de mal formação congênita.
+
+```{r data, echo=FALSE}
+alcohol <- c("0", "<1", "1-2", "3-5", ">=6")
+absente <- c(17066, 14464, 788, 126, 37)
+presente <- c(48, 38, 5, 1, 1)
+total <- c(17114, 14502, 793, 127, 38)
+df <- data.frame(
+  Consumo = alcohol,
+  Ausente = absente,
+  Presente = presente,
+  Total = total
+)
+kable(df, caption = "Consumo de Álcool e Mal formação congênita")
+```
+
+## Questões
+
+#### 1. **Identifique as variáveis em estudo e classifique quanto ao tipo.**
+
+#### 2. **Identifique a variável resposta e a explicativa.**
+
+#### 3. **Determine a proporção de presença de mal formação congênita para cada nível de consumo de álcool e analise os resultados obtidos.**
+
+```{r proporcoes}
+df$Percentual_Mal_Formacao <- round(100*(df$Presente/df$Total),4)
+kable(df)
+```
+
+#### 4. **Verifique se a presença de mal formação congênita nos bebês está associada ao nível de consumo de álcool das mães a um nível de significância de 5% e tratando as variáveis como qualitativas nominais.**
+
+```{r}
+tab <- rbind(df$Ausente, df$Presente)
+dimnames(tab) <- list(Malformacao=c("Ausente","Presente"), Consumo=df$Consumo)
+tab
+```
+
+
+```{r}
+chi <- chisq.test(tab)
+chi
+```
+
+
+##### a) Comente a decisão tomada considerando o nível de significância solicitado. A decisão seria a mesma para outro nível de significância? Qual seria sua recomendação?  
+   
+##### b) Os pressupostos do teste foram atendidos? O que poderia ser feito?  
+   
+#### 5. **Refaça o teste utilizado no item 4 agregando categorias para contornar o problema indicado no item 4b.**  
+Comente a decisão tomada com relação aos aspectos considerados nos itens 4a e 4b.  
+   
+```{r}
+ntag <- data.frame(
+  Consumo=c("0","1+"),
+  Ausente=c(df$Ausente[1], sum(df$Ausente[-1])),
+  Presente=c(df$Presente[1], sum(df$Presente[-1]))
+)
+ntag
+chisq.test(rbind(ntag$Ausente, ntag$Presente))
+```
+
+   
+#### 6. **Os resultados dos testes realizados permitem concluir sobre a existência de tendências na associação entre as variáveis considerando o nível de consumo de álcool? Justifique sua resposta.**
+
+#### 7. **Construa tabelas 2 × 2 que permitam medir a associação entre presença de mal formação congênita para cada nível de consumo de álcool em relação a ausência de consumo de álcool. Comente os resultados. Eles sugerem alguma tendência?**
+
+```{r}
+for(i in 2:nrow(df)){
+  sub <- data.frame(
+    Consumo=c(df$Consumo[1],df$Consumo[i]),
+    Ausente=c(df$Ausente[1],df$Ausente[i]),
+    Presente=c(df$Presente[1],df$Presente[i])
+  )
+  print(sub)
+  print(chisq.test(rbind(sub$Ausente,sub$Presente)))
+}
+```
+
+
