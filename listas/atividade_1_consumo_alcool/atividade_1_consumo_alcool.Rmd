@@ -1,0 +1,144 @@
+---
+output: html_document
+title: "Atividade 1 — Teste de Independência para Dados Ordinais"
+author: ""
+date: "`r Sys.Date()`"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_knit$set(encoding = "UTF-8")
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+$$
+r \;=\;
+\frac{
+  \displaystyle \sum_{i,j} u_i\,v_j\,n_{ij}
+  \;-\;
+  \frac{\bigl(\sum_i u_i\,n_{i+}\bigr)\,\bigl(\sum_j v_j\,n_{+j}\bigr)}{n}
+}
+{
+  \sqrt{
+    \Bigl(\sum_i u_i^2\,n_{i+} \;-\; \frac{(\sum_i u_i\,n_{i+})^2}{n}\Bigr)\,
+    \Bigl(\sum_j v_j^2\,n_{+j} \;-\; \frac{(\sum_j v_j\,n_{+j})^2}{n}\Bigr)
+  }
+}
+$$
+
+```{r, echo=TRUE, message=FALSE}
+# Função para calcular o coeficiente de correlação r em tabela ordinal
+# nij: matriz de contingencia (linhas x colunas)
+# u: vetor de escores para linhas
+# v: vetor de escores para colunas
+r_ordinal <- function(nij, u, v) {
+  ni_plus <- rowSums(nij) #Soma as linhas
+  n_plus_j <- colSums(nij) #Soma as colunas
+  N <- sum(nij) #Soma tudo (Total Geral)
+  #Numerador
+  S_uv_n <- sum(outer(u, v) * nij)
+  Su_ni <- sum(u * ni_plus)
+  Sv_nj <- sum(v * n_plus_j)
+  numerador <- S_uv_n - (Su_ni * Sv_nj) / N
+  #Denominador
+  Su2_ni <- sum(u^2 * ni_plus)
+  Sv2_nj <- sum(v^2 * n_plus_j)
+  denom_u <- Su2_ni - (Su_ni^2) / N
+  denom_v <- Sv2_nj - (Sv_nj^2) / N
+  denominador <- sqrt(denom_u * denom_v)
+  r <- numerador / denominador
+  # estatística de teste M² e p-valor
+  M2 <- (N - 1) * r^2
+  p_value <- 1 - pchisq(M2, df = 1)
+  return(list(r = r, M2 = M2, p_value = p_value))
+}
+```
+
+
+```{r, echo=TRUE, message=FALSE}
+# Exemplo de uso com a tabela de álcool vs malformação
+tabela <- matrix(c(17066,14464,788,126,37,
+                48,   38,   5,   1,  1),
+              nrow = 5, byrow = FALSE,
+              dimnames = list(
+                Consumo = c("0","<1","1–2","3–5",">=6"),
+                Malformacao = c("Ausente","Presente")
+              ))
+tabela
+```
+
+Exemplo do exercicio
+
+```{r, echo=TRUE, message=FALSE}
+u <- c(0,1,2,3,4)     # escores linhas
+v <- c(0,1)             # escores colunas
+r_ordinal(tabela, u, v)
+```
+
+```{r}
+# Escores sugeridos
+escores1 = 0:4
+escores2 = c(0, 0.5, 1.5, 4, 6.5)
+escores3 = 1:5
+escores4 = seq(2,10,2)
+escores5 = 1:5 *10
+escores6 = c(1,2,4,7,12)
+escores7 = 5:1
+escores8 = seq(0,2,0.5)
+```
+
+
+# 2. Teste de Independência
+
+**Hipóteses:**
+
+- H0: Não há associação linear entre o consumo de álcool e malformação.
+- H1: Existe uma associação linear (tendência) entre consumo e malformação.
+
+**Estatística do Teste:**
+
+Utilizamos a estatística de Cochran-Armitage (M²), que segue distribuição Qui-Quadrado com 1 grau de liberdade sob H0. O teste foi aplicado aos escores \[0,1,2,3,4\] e \[1,2,4,7,12\].
+
+**Decisão:**
+
+- Para os escores \[0,1,2,3,4\]: p = 0.176 → Não rejeitamos H0.
+- Para os escores \[1,2,4,7,12\]: p = 0.0166 → Rejeitamos H0 ao nível de significância de 5%.
+
+**Conclusão:**
+
+Há indícios de tendência linear entre consumo de álcool e malformação congênita **quando os escores são ajustados para refletir aumentos não lineares (1,2,4,7,12)**. Os escores simples não detectam associação significativa.
+
+# 3. Decisão para os demais escores
+
+```{r}
+# Lista de escores para linhas
+escores_lista <- list(
+  escores1 = 0:4,
+  escores2 = c(0, 0.5, 1.5, 4, 6.5),
+  escores3 = 1:5,
+  escores4 = seq(2,10,2),
+  escores5 = 1:5 * 10,
+  escores6 = c(1,2,4,7,12),
+  escores7 = 5:1,
+  escores8 = seq(0,2,0.5)
+)
+
+# Vetor de escores fixo para colunas
+v <- c(0,1)
+
+# Aplicando a função para cada conjunto de escores de linha
+res_decisao <- lapply(escores_lista, function(u) r_ordinal(tabela, u, v))
+
+# Convertendo para data frame
+res_df <- do.call(rbind, lapply(res_decisao, as.data.frame))
+res_df$Decisao <- ifelse(res_df$p_value < 0.05, "Rejeita H0", "Não rejeita H0")
+row.names(res_df) <- names(escores_lista)
+
+# Tabela com resultados
+knitr::kable(res_df, digits = 4, caption = "Decisão do teste para diferentes escores")
+```
+
+# 4. Análise sobre os escores utilizados
+
+Escores diferentes enfatizam diferentes padrões de associação. Escores proporcionais (ex.: 1,2,3,4,5) são invariantes ao teste. Escores não-lineares (1,2,4,7,12) acentuam contrastes e podem detectar associações ocultas com mais sensibilidade. A escolha de escores deve refletir conhecimento prévio ou suposições teóricas plausíveis sobre o aumento do risco com o consumo de álcool.
+
+

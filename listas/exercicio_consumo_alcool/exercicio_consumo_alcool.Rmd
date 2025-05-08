@@ -33,7 +33,13 @@ kable(df, caption = "Consumo de Álcool e Mal formação congênita")
 
 #### 1. **Identifique as variáveis em estudo e classifique quanto ao tipo.**
 
+- **Consumo de álcool**: variável qualitativa ordinal (categorias de drinques/dia).
+- **Mal formação congênita**: variável qualitativa nominal (ausente/presente).
+
 #### 2. **Identifique a variável resposta e a explicativa.**
+
+- **Resposta**: presença de mal formação congênita (Ausente/Presente).
+- **Explicativa**: nível de consumo de álcool (0, &lt;1, 1–2, 3–5, ≥6).
 
 #### 3. **Determine a proporção de presença de mal formação congênita para cada nível de consumo de álcool e analise os resultados obtidos.**
 
@@ -43,6 +49,11 @@ kable(df)
 ```
 
 #### 4. **Verifique se a presença de mal formação congênita nos bebês está associada ao nível de consumo de álcool das mães a um nível de significância de 5% e tratando as variáveis como qualitativas nominais.**
+
+$$
+H_0: \text{As variáveis são independentes (não há associação).} \\
+H_1: \text{As variáveis são associadas (não são independentes).}
+$$
 
 ```{r}
 tab <- rbind(df$Ausente, df$Presente)
@@ -58,9 +69,14 @@ chi
 
 
 ##### a) Comente a decisão tomada considerando o nível de significância solicitado. A decisão seria a mesma para outro nível de significância? Qual seria sua recomendação?  
-   
+
+Ao nível α=5%, p<0.05 ⇒ rejeita-se H₀ de independência. Há associação entre consumo e mal formação.
+Para outro α mais rígido (e.g. 1%), p>0.01 ⇒ não rejeitaríamos. Recomendo α=5% dado estudo exploratório.
+
 ##### b) Os pressupostos do teste foram atendidos? O que poderia ser feito?  
-   
+
+Algumas células esperadas têm valor <5 (e.g. categoria ≥6 tem 0.11 esperado) ⇒ pressuposto violado. Poderíamos agregar categorias. O teste do qui-quadrado, que exige que os valores esperados em cada célula da tabela sejam razoavelmente grandes,a maioria das células devem ter valor esperado ≥ 5, e nenhuma deve ter valor esperado < 1.
+
 #### 5. **Refaça o teste utilizado no item 4 agregando categorias para contornar o problema indicado no item 4b.**  
 Comente a decisão tomada com relação aos aspectos considerados nos itens 4a e 4b.  
    
@@ -74,8 +90,11 @@ ntag
 chisq.test(rbind(ntag$Ausente, ntag$Presente))
 ```
 
-   
+- **χ²** = 8.59, **p** = 0.0353. Ainda p<0.05, associação mantida. Agora pressupostos atendidos (esperados>5)
+
 #### 6. **Os resultados dos testes realizados permitem concluir sobre a existência de tendências na associação entre as variáveis considerando o nível de consumo de álcool? Justifique sua resposta.**
+
+Embora haja associação, não há teste de tendência formal aqui. Visualmente, proporção cresce com consumo, sugerindo tendência positiva.
 
 #### 7. **Construa tabelas 2 × 2 que permitam medir a associação entre presença de mal formação congênita para cada nível de consumo de álcool em relação a ausência de consumo de álcool. Comente os resultados. Eles sugerem alguma tendência?**
 
@@ -91,4 +110,5 @@ for(i in 2:nrow(df)){
 }
 ```
 
+Para todos os níveis isolados vs 0, p>0.05, exceto quando agrupa-se 1+ vs 0. Isso reforça que apenas consumo agregado mostra associação significativa.
 
