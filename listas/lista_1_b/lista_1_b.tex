@@ -1,0 +1,167 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{5}
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Lista 1 B - Análise de Dados Categorizados - 1/2025},
+  pdfauthor={Davi Wentrick Feijó},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Lista 1 B - Análise de Dados Categorizados - 1/2025}
+\author{Davi Wentrick Feijó}
+\date{15 de maio de 2025}
+
+\begin{document}
+\maketitle
+
+{
+\setcounter{tocdepth}{2}
+\tableofcontents
+}
+\section{Lista de Exercícios 1b}\label{lista-de-exercuxedcios-1b}
+
+Estude os tópicos 2.5 e 2.6 do capítulo 2 do livro-texto e as notas de
+aula e resolva os seguintes exercícios:
+
+\subsection{Exercício 2.27}\label{exercuxedcio-2.27}
+
+A study on educational aspirations of high school students (S. Crysdale,
+Int. J. Comp. Sociol., 16: 19--36, 1975) measured aspirations using the
+scale (some high school, high school graduate, some college, college
+graduate). For students whose family income was low, the counts in these
+categories were (9, 44, 13, 10); when family income was middle, the
+counts were (11, 52, 23, 22); when family income was high, the counts
+were (9, 41, 12, 27).
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{Teste de independência} de aspirações e renda familiar usando
+  \(X^{2}\) ou \(G^{2}\). Interprete e explique a deficiência deste
+  teste para esses dados.
+\item
+  \textbf{Resíduos padronizados}. Eles sugerem algum padrão de
+  associação?
+\item
+  \textbf{Teste mais poderoso}. Conduza um teste mais sensível e
+  interprete os resultados.
+\end{enumerate}
+
+\subsection{Exercício 2.29}\label{exercuxedcio-2.29}
+
+Um estudo (B. Kristensen et al., J. Intern. Med., 232: 237--245, 1992)
+considerou o efeito da prednisolona na hipercalcemia severa em mulheres
+com câncer de mama metastático. De 30 pacientes, 15 foram selecionadas
+randomicamente para receber prednisolona e as outras 15 formaram o grupo
+controle. A normalização no nível de cálcio ionizado sérico foi
+alcançada por sete das 15 pacientes tratadas com prednisolona e por 0
+das 15 pacientes do grupo controle.
+
+\begin{itemize}
+\tightlist
+\item
+  Use o \textbf{teste exato de Fisher} para encontrar um valor de \(P\)
+  para testar se os resultados foram significativamente melhores para o
+  tratamento do que para o controle. Interprete.
+\end{itemize}
+
+\subsection{Exercício 2.30}\label{exercuxedcio-2.30}
+
+A Tabela 2.17 contém resultados de um estudo comparando a terapia de
+radiação com cirurgia no tratamento do câncer de laringe. Use o
+\textbf{teste exato de Fisher} para testar \(H_{0}: \theta = 1\) contra
+\(H_{a}: \theta > 1\). Interprete os resultados.
+
+\begin{table}[ht]
+  \centering
+  \caption{Dados para o Problema 2.30}
+  \begin{tabular}{lcc}
+    \hline
+     & Cancer Controlado & Cancer Não Controlado \\
+    \hline
+    Cirurgia           & 21                & 2                    \\
+    Terapia de Radiação & 15               & 3                    \\
+    \hline
+  \end{tabular}
+\end{table}
+
+Fonte: W. Mendenhall et al., Int. J. Radiat. Oncol. Biol. Phys., 10:
+357--363, 1984. Reprinted with permission from Elsevier Science Ltd.
+
+\subsection{Exercício 2.31}\label{exercuxedcio-2.31}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Obtenha e interprete um valor de \(P\) exato de \textbf{duas caudas}.
+\item
+  Obtenha e interprete o valor de \(P\) \textbf{mid} unilateral. Discuta
+  as vantagens deste tipo de \(P\) em comparação com o ordinário.
+\end{enumerate}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\textbf{Bom Estudo!!!!}
+
+\end{document}

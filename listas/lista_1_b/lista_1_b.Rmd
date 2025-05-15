@@ -1,5 +1,55 @@
 ---
-title: "lista_1_b"
-output: html_document
+title: "Lista 1 B - Análise de Dados Categorizados - 1/2025"
+author: "Davi Wentrick Feijó"
+date: "`r format(Sys.Date(), '%d de %B de %Y')`"
+output:
+  html_document:
+    toc: true
+    number_sections: true
 ---
+
+## Lista de Exercícios 1b
+
+Estude os tópicos 2.5 e 2.6 do capítulo 2 do livro-texto e as notas de aula e resolva os seguintes exercícios:
+
+### Exercício 2.27
+
+A study on educational aspirations of high school students (S. Crysdale, Int. J. Comp. Sociol., 16: 19–36, 1975) measured aspirations using the scale (some high school, high school graduate, some college, college graduate). For students whose family income was low, the counts in these categories were (9, 44, 13, 10); when family income was middle, the counts were (11, 52, 23, 22); when family income was high, the counts were (9, 41, 12, 27).
+
+1. **Teste de independência** de aspirações e renda familiar usando $X^{2}$ ou $G^{2}$. Interprete e explique a deficiência deste teste para esses dados.
+2. **Resíduos padronizados**. Eles sugerem algum padrão de associação?
+3. **Teste mais poderoso**. Conduza um teste mais sensível e interprete os resultados.
+
+### Exercício 2.29
+
+Um estudo (B. Kristensen et al., J. Intern. Med., 232: 237–245, 1992) considerou o efeito da prednisolona na hipercalcemia severa em mulheres com câncer de mama metastático. De 30 pacientes, 15 foram selecionadas randomicamente para receber prednisolona e as outras 15 formaram o grupo controle. A normalização no nível de cálcio ionizado sérico foi alcançada por sete das 15 pacientes tratadas com prednisolona e por 0 das 15 pacientes do grupo controle.
+
+- Use o **teste exato de Fisher** para encontrar um valor de $P$ para testar se os resultados foram significativamente melhores para o tratamento do que para o controle. Interprete.
+
+### Exercício 2.30
+
+A Tabela 2.17 contém resultados de um estudo comparando a terapia de radiação com cirurgia no tratamento do câncer de laringe. Use o **teste exato de Fisher** para testar $H_{0}: \theta = 1$ contra $H_{a}: \theta > 1$. Interprete os resultados.
+
+```{=latex}
+\begin{table}[ht]
+  \centering
+  \caption{Dados para o Problema 2.30}
+  \begin{tabular}{lcc}
+    \hline
+     & Câncer Controlado & Câncer Não Controlado \\
+    \hline
+    Cirurgia             & 21                & 2                    \\
+    Terapia de Radiação   & 15                & 3                    \\
+    \hline
+  \end{tabular}
+\end{table}
+```
+
+Fonte: W. Mendenhall et al., Int. J. Radiat. Oncol. Biol. Phys., 10: 357–363, 1984. Reprinted with permission from Elsevier Science Ltd.
+
+### Exercício 2.31
+
+1. Obtenha e interprete um valor de $P$ exato de **duas caudas**.
+2. Obtenha e interprete o valor de $P$ **mid** unilateral. Discuta as vantagens deste tipo de $P$ em comparação com o ordinário.
+
 
