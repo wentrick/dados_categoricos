@@ -9,11 +9,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
-<meta name="author" content="Davi Wentrick Feijó - 200016806" />
+<meta name="author" content />
 
-<meta name="date" content="2025-08-05" />
+<meta name="date" content="2025-05-08" />
 
-<title>Exercício - Consumo de Álcool e Mal Formação Congênita</title>
+<title>Atividade 1 — Teste de Independência para Dados Ordinais</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -350,275 +350,226 @@ display: none;
 
 
 
-<h1 class="title toc-ignore">Exercício - Consumo de Álcool e Mal
-Formação Congênita</h1>
-<h4 class="author">Davi Wentrick Feijó - 200016806</h4>
-<h4 class="date">08/05/2025</h4>
+<h1 class="title toc-ignore">Atividade 1 — Teste de Independência para
+Dados Ordinais</h1>
+<h4 class="author"></h4>
+<h4 class="date">2025-05-08</h4>
 
 </div>
 
-<div id="TOC">
-<ul>
-<li><a href="#questões" id="toc-questões">Questões</a></li>
-</ul>
-</div>
 
-<p>A tabela a seguir apresenta os resultados de um estudo prospectivo
-sobre consumo de álcool pelas mães e mal formação congênita de seus
-filhos. Após três meses de gravidez, mulheres na amostra completaram um
-questionário sobre consumo de álcool, medido em número médio de drinques
-por dia. Após o nascimento das crianças, foram feitas observações sobre
-a presença ou ausência de mal formação congênita.</p>
-<table>
-<caption>Consumo de Álcool e Mal formação congênita</caption>
-<thead>
-<tr class="header">
-<th align="left">Consumo</th>
-<th align="right">Ausente</th>
-<th align="right">Presente</th>
-<th align="right">Total</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">0</td>
-<td align="right">17066</td>
-<td align="right">48</td>
-<td align="right">17114</td>
-</tr>
-<tr class="even">
-<td align="left">&lt;1</td>
-<td align="right">14464</td>
-<td align="right">38</td>
-<td align="right">14502</td>
-</tr>
-<tr class="odd">
-<td align="left">1-2</td>
-<td align="right">788</td>
-<td align="right">5</td>
-<td align="right">793</td>
-</tr>
-<tr class="even">
-<td align="left">3-5</td>
-<td align="right">126</td>
-<td align="right">1</td>
-<td align="right">127</td>
-</tr>
-<tr class="odd">
-<td align="left">&gt;=6</td>
-<td align="right">37</td>
-<td align="right">1</td>
-<td align="right">38</td>
-</tr>
-</tbody>
-</table>
-<div id="questões" class="section level2">
-<h2>Questões</h2>
-<div id="identifique-as-variáveis-em-estudo-e-classifique-quanto-ao-tipo." class="section level4">
-<h4>1. <strong>Identifique as variáveis em estudo e classifique quanto
-ao tipo.</strong></h4>
-<ul>
-<li><strong>Consumo de álcool</strong>: variável qualitativa ordinal
-(categorias de drinques/dia).</li>
-<li><strong>Mal formação congênita</strong>: variável qualitativa
-nominal (ausente/presente).</li>
-</ul>
-</div>
-<div id="identifique-a-variável-resposta-e-a-explicativa." class="section level4">
-<h4>2. <strong>Identifique a variável resposta e a
-explicativa.</strong></h4>
-<ul>
-<li><strong>Resposta</strong>: presença de mal formação congênita
-(Ausente/Presente).</li>
-<li><strong>Explicativa</strong>: nível de consumo de álcool (0, &lt;1,
-1–2, 3–5, ≥6).</li>
-</ul>
-</div>
-<div id="determine-a-proporção-de-presença-de-mal-formação-congênita-para-cada-nível-de-consumo-de-álcool-e-analise-os-resultados-obtidos." class="section level4">
-<h4>3. <strong>Determine a proporção de presença de mal formação
-congênita para cada nível de consumo de álcool e analise os resultados
-obtidos.</strong></h4>
-<pre class="r"><code>df$Percentual_Mal_Formacao &lt;- round(100*(df$Presente/df$Total),4)
-kable(df)</code></pre>
-<table>
-<thead>
-<tr class="header">
-<th align="left">Consumo</th>
-<th align="right">Ausente</th>
-<th align="right">Presente</th>
-<th align="right">Total</th>
-<th align="right">Percentual_Mal_Formacao</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">0</td>
-<td align="right">17066</td>
-<td align="right">48</td>
-<td align="right">17114</td>
-<td align="right">0.2805</td>
-</tr>
-<tr class="even">
-<td align="left">&lt;1</td>
-<td align="right">14464</td>
-<td align="right">38</td>
-<td align="right">14502</td>
-<td align="right">0.2620</td>
-</tr>
-<tr class="odd">
-<td align="left">1-2</td>
-<td align="right">788</td>
-<td align="right">5</td>
-<td align="right">793</td>
-<td align="right">0.6305</td>
-</tr>
-<tr class="even">
-<td align="left">3-5</td>
-<td align="right">126</td>
-<td align="right">1</td>
-<td align="right">127</td>
-<td align="right">0.7874</td>
-</tr>
-<tr class="odd">
-<td align="left">&gt;=6</td>
-<td align="right">37</td>
-<td align="right">1</td>
-<td align="right">38</td>
-<td align="right">2.6316</td>
-</tr>
-</tbody>
-</table>
-</div>
-<div id="verifique-se-a-presença-de-mal-formação-congênita-nos-bebês-está-associada-ao-nível-de-consumo-de-álcool-das-mães-a-um-nível-de-significância-de-5-e-tratando-as-variáveis-como-qualitativas-nominais." class="section level4">
-<h4>4. <strong>Verifique se a presença de mal formação congênita nos
-bebês está associada ao nível de consumo de álcool das mães a um nível
-de significância de 5% e tratando as variáveis como qualitativas
-nominais.</strong></h4>
 <p><span class="math display">\[
-H_0: \text{As variáveis são independentes (não há associação).} \\
-H_1: \text{As variáveis são associadas (não são independentes).}
+r \;=\;
+\frac{
+  \displaystyle \sum_{i,j} u_i\,v_j\,n_{ij}
+  \;-\;
+  \frac{\bigl(\sum_i u_i\,n_{i+}\bigr)\,\bigl(\sum_j
+v_j\,n_{+j}\bigr)}{n}
+}
+{
+  \sqrt{
+    \Bigl(\sum_i u_i^2\,n_{i+} \;-\; \frac{(\sum_i
+u_i\,n_{i+})^2}{n}\Bigr)\,
+    \Bigl(\sum_j v_j^2\,n_{+j} \;-\; \frac{(\sum_j
+v_j\,n_{+j})^2}{n}\Bigr)
+  }
+}
 \]</span></p>
-<pre class="r"><code>tab &lt;- rbind(df$Ausente, df$Presente)
-dimnames(tab) &lt;- list(Malformacao=c(&quot;Ausente&quot;,&quot;Presente&quot;), Consumo=df$Consumo)
-tab</code></pre>
-<pre><code>##            Consumo
-## Malformacao     0    &lt;1 1-2 3-5 &gt;=6
-##    Ausente  17066 14464 788 126  37
-##    Presente    48    38   5   1   1</code></pre>
-<pre class="r"><code>chi &lt;- chisq.test(tab)
-chi</code></pre>
-<pre><code>## 
-##  Pearson&#39;s Chi-squared test
-## 
-## data:  tab
-## X-squared = 12.082, df = 4, p-value = 0.01675</code></pre>
-<div id="a-comente-a-decisão-tomada-considerando-o-nível-de-significância-solicitado.-a-decisão-seria-a-mesma-para-outro-nível-de-significância-qual-seria-sua-recomendação" class="section level5">
-<h5>a) Comente a decisão tomada considerando o nível de significância
-solicitado. A decisão seria a mesma para outro nível de significância?
-Qual seria sua recomendação?</h5>
-<p>Ao nível α=5%, p&lt;0.05 ⇒ rejeita-se H₀ de independência. Há
-associação entre consumo e mal formação. Para outro α mais rígido
-(e.g. 1%), p&gt;0.01 ⇒ não rejeitaríamos. Recomendo α=5% dado estudo
-exploratório.</p>
-</div>
-<div id="b-os-pressupostos-do-teste-foram-atendidos-o-que-poderia-ser-feito" class="section level5">
-<h5>b) Os pressupostos do teste foram atendidos? O que poderia ser
-feito?</h5>
-<p>Algumas células esperadas têm valor &lt;5 (e.g. categoria ≥6 tem 0.11
-esperado) ⇒ pressuposto violado. Poderíamos agregar categorias. O teste
-do qui-quadrado, que exige que os valores esperados em cada célula da
-tabela sejam razoavelmente grandes,a maioria das células devem ter valor
-esperado ≥ 5, e nenhuma deve ter valor esperado &lt; 1.</p>
-</div>
-</div>
-<div id="refaça-o-teste-utilizado-no-item-4-agregando-categorias-para-contornar-o-problema-indicado-no-item-4b." class="section level4">
-<h4>5. <strong>Refaça o teste utilizado no item 4 agregando categorias
-para contornar o problema indicado no item 4b.</strong></h4>
-<p>Comente a decisão tomada com relação aos aspectos considerados nos
-itens 4a e 4b.</p>
-<pre class="r"><code>ntag &lt;- data.frame(
-  Consumo=c(&quot;0&quot;,&quot;1+&quot;),
-  Ausente=c(df$Ausente[1], sum(df$Ausente[-1])),
-  Presente=c(df$Presente[1], sum(df$Presente[-1]))
-)
-ntag</code></pre>
-<pre><code>##   Consumo Ausente Presente
-## 1       0   17066       48
-## 2      1+   15415       45</code></pre>
-<pre class="r"><code>chisq.test(rbind(ntag$Ausente, ntag$Presente))</code></pre>
-<pre><code>## 
-##  Pearson&#39;s Chi-squared test with Yates&#39; continuity correction
-## 
-## data:  rbind(ntag$Ausente, ntag$Presente)
-## X-squared = 0.0056394, df = 1, p-value = 0.9401</code></pre>
-<ul>
-<li><strong>χ²</strong> = 8.59, <strong>p</strong> = 0.0353. Ainda
-p&lt;0.05, associação mantida. Agora pressupostos atendidos
-(esperados&gt;5)</li>
-</ul>
-</div>
-<div id="os-resultados-dos-testes-realizados-permitem-concluir-sobre-a-existência-de-tendências-na-associação-entre-as-variáveis-considerando-o-nível-de-consumo-de-álcool-justifique-sua-resposta." class="section level4">
-<h4>6. <strong>Os resultados dos testes realizados permitem concluir
-sobre a existência de tendências na associação entre as variáveis
-considerando o nível de consumo de álcool? Justifique sua
-resposta.</strong></h4>
-<p>Embora haja associação, não há teste de tendência formal aqui.
-Visualmente, proporção cresce com consumo, sugerindo tendência
-positiva.</p>
-</div>
-<div id="construa-tabelas-2-2-que-permitam-medir-a-associação-entre-presença-de-mal-formação-congênita-para-cada-nível-de-consumo-de-álcool-em-relação-a-ausência-de-consumo-de-álcool.-comente-os-resultados.-eles-sugerem-alguma-tendência" class="section level4">
-<h4>7. <strong>Construa tabelas 2 × 2 que permitam medir a associação
-entre presença de mal formação congênita para cada nível de consumo de
-álcool em relação a ausência de consumo de álcool. Comente os
-resultados. Eles sugerem alguma tendência?</strong></h4>
-<pre class="r"><code>for(i in 2:nrow(df)){
-  sub &lt;- data.frame(
-    Consumo=c(df$Consumo[1],df$Consumo[i]),
-    Ausente=c(df$Ausente[1],df$Ausente[i]),
-    Presente=c(df$Presente[1],df$Presente[i])
-  )
-  print(sub)
-  print(chisq.test(rbind(sub$Ausente,sub$Presente)))
+<pre class="r"><code># Função para calcular o coeficiente de correlação r em tabela ordinal
+# nij: matriz de contingencia (linhas x colunas)
+# u: vetor de escores para linhas
+# v: vetor de escores para colunas
+r_ordinal &lt;- function(nij, u, v) {
+  ni_plus &lt;- rowSums(nij) #Soma as linhas
+  n_plus_j &lt;- colSums(nij) #Soma as colunas
+  N &lt;- sum(nij) #Soma tudo (Total Geral)
+  #Numerador
+  S_uv_n &lt;- sum(outer(u, v) * nij)
+  Su_ni &lt;- sum(u * ni_plus)
+  Sv_nj &lt;- sum(v * n_plus_j)
+  numerador &lt;- S_uv_n - (Su_ni * Sv_nj) / N
+  #Denominador
+  Su2_ni &lt;- sum(u^2 * ni_plus)
+  Sv2_nj &lt;- sum(v^2 * n_plus_j)
+  denom_u &lt;- Su2_ni - (Su_ni^2) / N
+  denom_v &lt;- Sv2_nj - (Sv_nj^2) / N
+  denominador &lt;- sqrt(denom_u * denom_v)
+  r &lt;- numerador / denominador
+  # estatística de teste M² e p-valor
+  M2 &lt;- (N - 1) * r^2
+  p_value &lt;- 1 - pchisq(M2, df = 1)
+  return(list(r = r, M2 = M2, p_value = p_value))
 }</code></pre>
-<pre><code>##   Consumo Ausente Presente
-## 1       0   17066       48
-## 2      &lt;1   14464       38
+<pre class="r"><code># Exemplo de uso com a tabela de álcool vs malformação
+tabela &lt;- matrix(c(17066,14464,788,126,37,
+                48,   38,   5,   1,  1),
+              nrow = 5, byrow = FALSE,
+              dimnames = list(
+                Consumo = c(&quot;0&quot;,&quot;&lt;1&quot;,&quot;1–2&quot;,&quot;3–5&quot;,&quot;&gt;=6&quot;),
+                Malformacao = c(&quot;Ausente&quot;,&quot;Presente&quot;)
+              ))
+tabela</code></pre>
+<pre><code>##        Malformacao
+## Consumo Ausente Presente
+##     0     17066       48
+##     &lt;1    14464       38
+##     1–2     788        5
+##     3–5     126        1
+##     &gt;=6      37        1</code></pre>
+<p>Exemplo do exercicio</p>
+<pre class="r"><code>u &lt;- c(0,1,2,3,4)     # escores linhas
+v &lt;- c(0,1)             # escores colunas
+r_ordinal(tabela, u, v)</code></pre>
+<pre><code>## $r
+## [1] 0.007490842
 ## 
-##  Pearson&#39;s Chi-squared test with Yates&#39; continuity correction
+## $M2
+## [1] 1.82776
 ## 
-## data:  rbind(sub$Ausente, sub$Presente)
-## X-squared = 0.042157, df = 1, p-value = 0.8373
-## 
-##   Consumo Ausente Presente
-## 1       0   17066       48
-## 2     1-2     788        5</code></pre>
-<pre><code>## 
-##  Pearson&#39;s Chi-squared test with Yates&#39; continuity correction
-## 
-## data:  rbind(sub$Ausente, sub$Presente)
-## X-squared = 2.0725, df = 1, p-value = 0.15
-## 
-##   Consumo Ausente Presente
-## 1       0   17066       48
-## 2     3-5     126        1</code></pre>
-<pre><code>## 
-##  Pearson&#39;s Chi-squared test with Yates&#39; continuity correction
-## 
-## data:  rbind(sub$Ausente, sub$Presente)
-## X-squared = 0.054126, df = 1, p-value = 0.816
-## 
-##   Consumo Ausente Presente
-## 1       0   17066       48
-## 2     &gt;=6      37        1</code></pre>
-<pre><code>## 
-##  Pearson&#39;s Chi-squared test with Yates&#39; continuity correction
-## 
-## data:  rbind(sub$Ausente, sub$Presente)
-## X-squared = 1.4186, df = 1, p-value = 0.2336</code></pre>
-<p>Para todos os níveis isolados vs 0, p&gt;0.05, exceto quando
-agrupa-se 1+ vs 0. Isso reforça que apenas consumo agregado mostra
+## $p_value
+## [1] 0.1763924</code></pre>
+<pre class="r"><code># Escores sugeridos
+escores1 = 0:4
+escores2 = c(0, 0.5, 1.5, 4, 6.5)
+escores3 = 1:5
+escores4 = seq(2,10,2)
+escores5 = 1:5 *10
+escores6 = c(1,2,4,7,12)
+escores7 = 5:1
+escores8 = seq(0,2,0.5)</code></pre>
+<div id="teste-de-independência" class="section level1">
+<h1>2. Teste de Independência</h1>
+<p><strong>Hipóteses:</strong></p>
+<ul>
+<li>H0: Não há associação linear entre o consumo de álcool e
+malformação.</li>
+<li>H1: Existe uma associação linear (tendência) entre consumo e
+malformação.</li>
+</ul>
+<p><strong>Estatística do Teste:</strong></p>
+<p>Utilizamos a estatística de Cochran-Armitage (M²), que segue
+distribuição Qui-Quadrado com 1 grau de liberdade sob H0. O teste foi
+aplicado aos escores <span class="math display">\[0,1,2,3,4\]</span> e
+<span class="math display">\[1,2,4,7,12\]</span>.</p>
+<p><strong>Decisão:</strong></p>
+<ul>
+<li>Para os escores <span class="math display">\[0,1,2,3,4\]</span>: p =
+0.176 → Não rejeitamos H0.</li>
+<li>Para os escores <span class="math display">\[1,2,4,7,12\]</span>: p
+= 0.0166 → Rejeitamos H0 ao nível de significância de 5%.</li>
+</ul>
+<p><strong>Conclusão:</strong></p>
+<p>Há indícios de tendência linear entre consumo de álcool e malformação
+congênita <strong>quando os escores são ajustados para refletir aumentos
+não lineares (1,2,4,7,12)</strong>. Os escores simples não detectam
 associação significativa.</p>
 </div>
+<div id="decisão-para-os-demais-escores" class="section level1">
+<h1>3. Decisão para os demais escores</h1>
+<pre class="r"><code># Lista de escores para linhas
+escores_lista &lt;- list(
+  escores1 = 0:4,
+  escores2 = c(0, 0.5, 1.5, 4, 6.5),
+  escores3 = 1:5,
+  escores4 = seq(2,10,2),
+  escores5 = 1:5 * 10,
+  escores6 = c(1,2,4,7,12),
+  escores7 = 5:1,
+  escores8 = seq(0,2,0.5)
+)
+
+# Vetor de escores fixo para colunas
+v &lt;- c(0,1)
+
+# Aplicando a função para cada conjunto de escores de linha
+res_decisao &lt;- lapply(escores_lista, function(u) r_ordinal(tabela, u, v))
+
+# Convertendo para data frame
+res_df &lt;- do.call(rbind, lapply(res_decisao, as.data.frame))
+res_df$Decisao &lt;- ifelse(res_df$p_value &lt; 0.05, &quot;Rejeita H0&quot;, &quot;Não rejeita H0&quot;)
+row.names(res_df) &lt;- names(escores_lista)
+
+# Tabela com resultados
+knitr::kable(res_df, digits = 4, caption = &quot;Decisão do teste para diferentes escores&quot;)</code></pre>
+<table>
+<caption>Decisão do teste para diferentes escores</caption>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="right">r</th>
+<th align="right">M2</th>
+<th align="right">p_value</th>
+<th align="left">Decisao</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">escores1</td>
+<td align="right">0.0075</td>
+<td align="right">1.8278</td>
+<td align="right">0.1764</td>
+<td align="left">Não rejeita H0</td>
+</tr>
+<tr class="even">
+<td align="left">escores2</td>
+<td align="right">0.0139</td>
+<td align="right">6.2878</td>
+<td align="right">0.0122</td>
+<td align="left">Rejeita H0</td>
+</tr>
+<tr class="odd">
+<td align="left">escores3</td>
+<td align="right">0.0075</td>
+<td align="right">1.8278</td>
+<td align="right">0.1764</td>
+<td align="left">Não rejeita H0</td>
+</tr>
+<tr class="even">
+<td align="left">escores4</td>
+<td align="right">0.0075</td>
+<td align="right">1.8278</td>
+<td align="right">0.1764</td>
+<td align="left">Não rejeita H0</td>
+</tr>
+<tr class="odd">
+<td align="left">escores5</td>
+<td align="right">0.0075</td>
+<td align="right">1.8278</td>
+<td align="right">0.1764</td>
+<td align="left">Não rejeita H0</td>
+</tr>
+<tr class="even">
+<td align="left">escores6</td>
+<td align="right">0.0133</td>
+<td align="right">5.7406</td>
+<td align="right">0.0166</td>
+<td align="left">Rejeita H0</td>
+</tr>
+<tr class="odd">
+<td align="left">escores7</td>
+<td align="right">-0.0075</td>
+<td align="right">1.8278</td>
+<td align="right">0.1764</td>
+<td align="left">Não rejeita H0</td>
+</tr>
+<tr class="even">
+<td align="left">escores8</td>
+<td align="right">0.0075</td>
+<td align="right">1.8278</td>
+<td align="right">0.1764</td>
+<td align="left">Não rejeita H0</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="análise-sobre-os-escores-utilizados" class="section level1">
+<h1>4. Análise sobre os escores utilizados</h1>
+<p>Escores diferentes enfatizam diferentes padrões de associação.
+Escores proporcionais (ex.: 1,2,3,4,5) são invariantes ao teste. Escores
+não-lineares (1,2,4,7,12) acentuam contrastes e podem detectar
+associações ocultas com mais sensibilidade. A escolha de escores deve
+refletir conhecimento prévio ou suposições teóricas plausíveis sobre o
+aumento do risco com o consumo de álcool.</p>
 </div>
 
 
