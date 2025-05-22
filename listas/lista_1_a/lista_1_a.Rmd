@@ -1,5 +1,336 @@
 ---
-title: "lista_1_a"
-output: html_document
+title: "Lista de Exercícios 1a"
+output: 
+  html_document:
+    toc: true
+    toc_depth: 2
+    number_sections: true
 ---
+
+# Lista Exercícios 1a
+
+## Estude os tópicos 2.1 a 2.4 do capítulo 2 do livro-texto (2ª edição, 2007) e as notas de aula
+
+Resolva os seguintes exercícios:
+
+1. **Exercícios 3 a 7, páginas 55 e 56, da 2ª edição do livro-texto (2007).**
+
+2. **Exercício 2.3**
+   
+   According to recent UN figures, the annual gun homicide rate is 62.4 per one million residents in the United States and 1.3 per one million residents in the UK.
+   
+   a. Compare the proportion of residents killed annually by guns using the (i) difference of proportions, (ii) relative risk.
+
+```{r}
+# Proporções
+p_US <- 62.4 / 1e6
+p_UK <- 1.3 / 1e6
+
+# (i) Diferença de proporções
+diff_prop <- p_US - p_UK
+
+# (ii) Risco relativo (razão)
+relative_risk <- p_US / p_UK
+
+# Exibir resultados
+cat("Diferença de proporções:", diff_prop, "\n")
+cat("Risco relativo:", relative_risk, "\n")
+```
+
+ 
+   b. When both proportions are very close to 0, as here, which measure is more useful for describing the strength of association? Why?
+
+Quando as taxas sao muito pequenas fica dificil de entender a diferenca de proporcao. A razão (risco relativo) é mais útil para descrever a força da associação, pois mostra quantas vezes maior é o risco em um grupo comparado ao outro.No exemplo, o risco nos EUA é quase 48 vezes maior que no Reino Unido, o que é uma diferença substancial mesmo que ambas as taxas sejam pequenas.
+
+3. **Exercício 2.4**
+   
+   A newspaper article preceding the 1994 World Cup semifinal match between Italy and Bulgaria stated that "Italy is favored $10\text{-}11$ to beat Bulgaria, which is rated at $10\text{-}3$ to reach the final." Suppose this means that the odds that Italy wins are $11/10$ and the odds that Bulgaria wins are $3/10$. Find the probability that each team wins, and comment.
+
+```{r}
+# Odds dadas:
+odds_Italy   <- 11/10  # odds de Itália ganhar: 11:10
+odds_Bulgaria <-  3/10  # odds de Bulgária ganhar:  3:10
+
+# Converter odds em probabilidade: p = odds / (1 + odds)
+p_Italy    <- odds_Italy   / (1 + odds_Italy)
+p_Bulgaria <- odds_Bulgaria / (1 + odds_Bulgaria)
+
+# Imprimir resultados
+cat("Probabilidade implícita de vitória da Itália: ", round(p_Italy, 4), "\n")
+cat("Probabilidade implícita de vitória da Bulgária:", round(p_Bulgaria, 4), "\n")
+
+# Soma das duas probabilidades
+cat("Soma das duas probabilidades:           ", round(p_Italy + p_Bulgaria, 4), "\n")
+
+```
+A soma nao dar 1 deve indicar a possibilidade de empate
+
+4. **Exercício 2.5**
+   
+   Considere os seguintes dois estudos reportados no *New York Times*:
+   
+   a. Um estudo britânico reportou (3 de dezembro de 1998) que, de fumantes que desenvolvem câncer de pulmão, "as mulheres eram 1.7 vezes mais vulneráveis que os homens para desenvolver câncer de pulmão de pequenas células." Essa razão de 1.7 é uma odds ratio ou um relative risk?
+
+Esse “1.7 vezes” está comparando probabilidades (risco de desenvolver o tipo de câncer), então trata-se de um risco relativo (relative risk), e não de uma odds ratio.
+
+   b. Um estudo do National Cancer Institute sobre tamoxifeno e câncer de mama reportou (7 de abril de 1998) que as mulheres tomando o medicamento tinham 45% menos probabilidade de experienciar câncer de mama invasivo comparado ao grupo placebo. Encontre o relative risk para (i) as que tomam o medicamento comparado às que tomam placebo, (ii) as que tomam placebo comparado às que tomam o medicamento.
+
+```{r}
+# 2.5(b): cálculo do risco relativo em R
+
+# (i) risco relativo Drug vs Placebo
+#“45 % menos propensas” significa que quem toma o tamoxifeno tem 55 % do risco das que tomam placebo
+
+RR_D_P <- 1 - 0.45
+
+# (ii) risco relativo Placebo vs Drug
+RR_P_D <- 1 / RR_D_P
+
+cat("RR (Drug vs Placebo):   ", round(RR_D_P, 3), "\n")  # 0.55
+cat("RR (Placebo vs Drug):   ", round(RR_P_D, 3), "\n")  # ≈1.818
+```
+
+
+5. **Exercício 2.6**
+   
+   Nos Estados Unidos, a probabilidade anual estimada de que uma mulher acima de 35 anos morra de câncer de pulmão é 0.001304 para fumantes atuais e 0.000121 para não fumantes [Pagano & Gauvreau (1993), p. 134].
+   
+   a. Calcule e interprete a diferença de proporções e o relative risk. Qual medida é mais informativa? Por quê?
+
+```{r}
+# Probabilidades dadas
+p_fum   <- 0.001304  # fumantes
+p_naof  <- 0.000121  # não-fumantes
+
+# a) Diferença de proporções
+diff_p  <- p_fum - p_naof
+
+#    Risco Relativo
+RR      <- p_fum / p_naof
+
+cat("a) Diferença de proporções:      ", round(diff_p, 6), "\n")
+cat("   Risco relativo (smokers vs ns):", round(RR,    2), "\n\n")
+```
+
+Pelo RR temos que a probabilidade de morrer de câncer de pulmão é aproximadamente 11 vezes maior em fumantes do que em não-fumantes.Como as probabilidades são muito pequenas, a diferença absoluta (0.0012) parece “insignificante” apesar de representar um aumento grande. O risco relativo dá uma ideia melhor da força da associação
+
+
+   b. Calcule e interprete a odds ratio. Explique por que relative risk e odds ratio apresentam valores semelhantes.
+
+```{r}
+# b) Odds Ratio
+#    odds = p/(1-p)
+odds_fum  <- p_fum  / (1 - p_fum)
+odds_naof <- p_naof / (1 - p_naof)
+OR        <- odds_fum / odds_naof
+
+# Imprimir resultados
+
+cat("b) Odds ratio (smokers vs ns):    ", round(OR,    2), "\n")
+
+```
+Pelas probabilidades serem muito baixas acaba que fica parecido com o RR
+
+6. **Exercício 2.7**
+   
+   Para adultos que viajaram no Titanic, a odds ratio entre gênero (feminino, masculino) e sobrevivência (sim, não) foi 11.4 (ver Dawson, *J. Statist. Educ.*, 1995).
+   
+   a. O que há de errado na interpretação "A probabilidade de sobrevivência para fêmeas foi 11.4 vezes a dos machos"? Dê a interpretação correta.
+
+Porque 11,4 é a razão de odds de sobrevivência, não de probabilidades
+
+   b. Sabendo que as odds de sobrevivência para fêmeas foram 2.9, encontre para cada gênero a proporção que sobreviveu.
+
+```{r}
+# em R:
+o_F <- 2.9
+o_M <- 2.9 / 11.4
+
+p_F <- o_F / (1 + o_F)
+p_M <- o_M / (1 + o_M)
+
+cat("Proporção de mulheres que sobreviveram:", round(p_F, 4), "\n")
+cat("Proporção de homens que sobreviveram:   ", round(p_M, 4), "\n")
+
+```
+
+
+   c. Encontre o valor de $R$ na interpretação "A probabilidade de sobrevivência para fêmeas foi $R$ vezes a dos machos."  
+
+```{r}
+# c) razão de probabilidades
+R    <- p_F / p_M
+
+# Exibir
+cat("p_F =", round(p_F, 4),   ";  p_M =", round(p_M, 4), "\n")
+cat("R  =", round(R,   2), "\n")
+
+```
+A probabilidade de sobrevivência para mulheres foi aproximadamente 3,7 vezes a dos homens.
+
+## Exercício Extra (1ª edição do livro-texto, 1996)
+
+7. **Exercício 1**
+
+   Um estudo sueco considerou o efeito da aspirina em dose baixa na redução do risco de AVC e infarto em pessoas que já tiveram AVC (Lancet 338:1345–1349, 1991). De 1360 pacientes, 676 receberam aspirina (uma dose baixa por dia) e 684 placebo. Em acompanhamento de ~3 anos, houve 18 mortes por infarto no grupo aspirina e 28 mortes no grupo placebo.
+   
+   a. Calcule e interprete a diferença de proporções, relative risk de morte e odds ratio.
+
+```{r}
+# Dados
+n_A     <- 676    # tamanho do grupo Aspirina
+d_A     <- 18     # mortes por IAM no grupo Aspirina
+n_P     <- 684    # tamanho do grupo Placebo
+d_P     <- 28     # mortes por IAM no grupo Placebo
+
+# a) Medidas descritivas
+
+# proporções de morte
+p_A     <- d_A / n_A
+p_P     <- d_P / n_P
+
+# diferença de proporções
+diff_p  <- p_A - p_P
+
+# risco relativo
+RR      <- p_A / p_P
+
+# odds ratio
+odds_A  <- p_A / (1 - p_A)
+odds_P  <- p_P / (1 - p_P)
+OR      <- odds_A / odds_P
+
+cat(" Proporção de morte (aspirina): ", round(p_A, 4), "\n")
+cat(" Proporção de morte (placebo):  ", round(p_P, 4), "\n")
+cat(" Diferença de proporções:       ", round(diff_p, 4), "\n")
+cat(" Risco relativo (A vs P):        ", round(RR,    3), "\n")
+cat(" Odds ratio (A vs P):            ", round(OR,    3), "\n\n")
+```
+
+Quem tomou aspirina teve 65 % do risco do grupo placebo (uma redução de 35 %). As odds de morrer por IAM foram 36 % menores no grupo Aspirina.
+
+   b. Realize análise inferencial para estes dados e interprete os resultados.
+
+```{r}
+# b) Análise inferencial
+
+# Teste exato de Fisher
+fisher <- fisher.test(matrix(c(d_A, n_A - d_A,
+                               d_P, n_P - d_P),
+                             nrow = 2,
+                             byrow = TRUE))
+
+# Teste de proporções (Chi-quadrado sem correção de Yates)
+prop   <- prop.test(c(d_A, d_P),
+                    c(n_A, n_P),
+                    correct = FALSE)
+
+
+cat(" Fisher exact p-value:           ", round(fisher$p.value, 4), "\n")
+cat(" prop.test p-value:              ", round(prop$p.value,   4), "\n")
+cat(" prop.test 95% CI para diff_p:   ",
+    paste0("(", 
+           round(prop$conf.int[1], 4), ", ",
+           round(prop$conf.int[2], 4), ")"), "\n")
+
+```
+
+Nenhum dos testes (Fisher ou teste de proporções) rejeita a hipótese nula (p≈0.14–0.15). O intervalo de confiança para a diferença de proporções inclui zero (≈[−0.0336, 0.0050]), confirmando que não há evidência estatística, ao nível de 5 %, de que a aspirina reduza a mortalidade por IAM neste estudo.
+
+## Exercícios 15 e 19, páginas 58–60, 2ª edição (2007)
+
+8. **Exercício 2.15**
+
+   Uma IC para o log do relative risk em grande amostra é:
+
+   $$
+   \log\left(\frac{p_1}{p_2}\right) \pm z_{\alpha/2} \sqrt{\frac{1-p_1}{n_1 p_1} + \frac{1-p_2}{n_2 p_2}}
+   $$
+
+   Os antilogs dos limites fornecem o intervalo para o true relative risk. Verifique a IC de 95% de (1.43, 2.30) reportada na Seção 2.2.3 para o estudo de aspirina e infarto.
+
+9. **Exercício 2.19**
+
+   A Tabela 2.14 foi retirada do General Social Survey 2002.
+
+   a. Teste a hipótese nula de independência entre identificação partidária e raça. Interprete.
+
+```{r}
+# Dados
+tabela <- matrix(c(871, 444, 873,
+                   302,  80,  43),
+                 nrow = 2,
+                 byrow = TRUE)
+rownames(tabela) <- c("White", "Black")
+colnames(tabela) <- c("Democrat", "Independent", "Republican")
+tabela
+```
+
+
+```{r}
+# a) Teste de independência (chi-quadrado)
+chi3 <- chisq.test(tabela, correct = FALSE)
+print(chi3)
+```
+
+Rejeitamos a hipótese nula de independência; há associação altamente significativa entre raça e identificação partidária.
+
+   b. Use resíduos padronizados para descrever a evidência.
+
+```{r}
+# b) Resíduos padronizados
+#    (tabela de resíduos z, >|2| indicam células que mais contribuem para chi²)
+std_res <- chi3$stdres
+print(round(std_res, 2))
+```
+
+
+   c. Particione o qui-quadrado em dois componentes e descreva a evidência.
+
+```{r}
+# c) Partição em dois componentes 2×2
+
+# Componente 1: Democrat vs não-Democrat
+t1 <- matrix(c(
+  tabela["White", "Democrat"], sum(tabela["White", c("Independent","Republican")]),
+  tabela["Black", "Democrat"], sum(tabela["Black", c("Independent","Republican")])
+), nrow = 2, byrow = TRUE)
+rownames(t1) <- c("White","Black")
+colnames(t1) <- c("Democrat","Non-Democrat")
+t1
+```
+
+
+```{r}
+chi1 <- chisq.test(t1, correct = FALSE)
+cat("\nComponente 1 (Democrat vs Non):\n")
+print(chi1)
+```
+
+
+```{r}
+# Componente 2: Republican vs não-Republican
+t2 <- matrix(c(
+  tabela["White", "Republican"], sum(tabela["White", c("Democrat","Independent")]),
+  tabela["Black", "Republican"], sum(tabela["Black", c("Democrat","Independent")])
+), nrow = 2, byrow = TRUE)
+rownames(t2) <- c("White","Black")
+colnames(t2) <- c("Republican","Non-Republican")
+t2
+```
+
+Mostra que a diferença na proporção de democratas entre brancos e negros é altamente significativa
+
+```{r}
+chi2 <- chisq.test(t2, correct = FALSE)
+cat("\nComponente 2 (Republican vs Non):\n")
+print(chi2)
+```
+
+Mostra que a diferença na proporção de republicanos entre brancos e negros também é altamente significativa.
+
+---
+
+*Bom estudo!*
+
 
