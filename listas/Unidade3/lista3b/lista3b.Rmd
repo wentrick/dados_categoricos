@@ -1,0 +1,158 @@
+---
+title: "lista3b"
+output: html_document
+---
+
+```{r}
+# Coeficientes do modelo (Táb. 4.11)
+beta0 <- -3.5961   # intercepto (def=0, vic=0)
+beta_def <- -0.8678  # efeito de defendant’s race (1=white vs 0=black)
+beta_vic <-  2.4044  # efeito de victim’s race (1=white vs 0=black)
+
+# Função auxiliar: plogis() = 1/(1+exp(-x))
+logit <- function(def, vic) beta0 + beta_def*def + beta_vic*vic
+p_hat <- function(def, vic) plogis(logit(def, vic))
+
+# (a) Qual combinação tem maior probabilidade de “yes”?
+#     def=0 (black), vic=1 (white) → logit = β0 + β_vic
+p_max <- p_hat(def = 0, vic = 1)
+cat("Maior p̂ em (def=black, vic=white):", round(p_max, 3), "\n")
+# → p̂ ≃ 0.233
+
+# (b) Interpretação de β_vic:
+OR_vic <- exp(beta_vic)
+cat("OR(white vs black victim) =", round(OR_vic, 2), "\n")
+# → Ter uma vítima branca multiplica as odds de pena de morte por ~11.07
+
+# (c) IC95% pelo perfil de verossimilhança (Táb. 4.11 dá limites em log‑OR)
+ci_beta_vic <- c(1.3068, 3.7175)
+ci_or_vic   <- exp(ci_beta_vic)
+cat("IC95% LRT para OR_vic: [",
+    round(ci_or_vic[1],2), ", ",
+    round(ci_or_vic[2],2), "]\n")
+# → IC95% ≃ [3.69, 41.25]
+
+# (d) Teste do efeito vic controlando def:
+#     Já na Táb. 4.11: χ²_LRT = 20.35, df=1, p < .0001
+p_lr_vic <- 1 - pchisq(20.35, df = 1)
+cat("LRT para β_vic: χ²=20.35, p=", signif(p_lr_vic,3), "\n")
+# → p << 0.001, efeito de victim’s race é altamente significante
+
+```
+
+```{r}
+# 4.13 — Cálculo do p‑valor e contagem esperada em R
+
+# (a) p‑valor para T_MH = 7.00 sob χ²₁
+T_MH   <- 7.00
+p_val  <- 1 - pchisq(T_MH, df = 1)
+cat("p‑valor =", round(p_val, 4), "\n\n")
+
+# (b) Tabela agregada vítima × pena de morte
+# Observados:
+#   vítima=black → yes=6, no=106
+#   vítima=white → yes=30, no=180
+obs <- matrix(
+  c(6, 106,
+    30, 180),
+  nrow = 2, byrow = TRUE,
+  dimnames = list(
+    victim = c("black", "white"),
+    DP     = c("yes", "no")
+  )
+)
+obs
+
+# Totais e total geral
+row_tot <- rowSums(obs)
+col_tot <- colSums(obs)
+n_tot   <- sum(obs)
+
+# Matriz de esperados sob independência: (row_tot %*% t(col_tot)) / n_tot
+exp_mat <- outer(row_tot, col_tot) / n_tot
+dimnames(exp_mat) <- dimnames(obs)
+
+# Exibe a matriz de esperados
+exp_mat
+
+# Esperado para (victim = black, DP = yes)
+E_black_yes <- exp_mat["black", "yes"]
+cat("\nEsperado em (black, yes) =", round(E_black_yes, 2), "\n")
+
+```
+
+```{r}
+### 4.15
+### (a) Cochran–Mantel–Haenszel test ###
+merit <- array(
+  c(
+    # NC
+     24,  9,   47, 12,
+    # NE
+     10,  3,   45,  8,
+    # NW
+      5,  4,   57,  9,
+    # SE
+     16,  7,   54, 10,
+    # SW
+      7,  4,   59, 12
+  ),
+  dim = c(2, 2, 5),
+  dimnames = list(
+    race     = c("Black","White"),
+    meritpay = c("Yes","No"),
+    district = c("NC","NE","NW","SE","SW")
+  )
+)
+
+cmh <- mantelhaen.test(merit, correct = FALSE)
+print(cmh)
+```
+
+
+```{r}
+### (b) Logistic regression LRT and Wald test for “race” ###
+library(tidyr)
+
+df <- as.data.frame.table(merit, responseName = "count") %>%
+  pivot_wider(
+    names_from  = meritpay,
+    values_from = count
+  ) %>%
+  mutate(
+    race     = factor(race,     levels = c("White","Black")),
+    district = factor(district)
+  )
+
+m_full <- glm(cbind(Yes, No) ~ race + district,
+              family = binomial, data = df)
+m_red  <- update(m_full, . ~ . - race)
+
+# (b1) LRT comparing full vs. reduced
+lrt <- anova(m_red, m_full, test = "Chisq")
+print(lrt)
+
+# (b2) Wald test for raceBlack
+ct <- summary(m_full)$coefficients
+z  <- ct["raceBlack","Estimate"] / ct["raceBlack","Std. Error"]
+p  <- 2 * (1 - pnorm(abs(z)))
+cat("Wald z =", round(z,3), ", p-value =", round(p,4), "\n")
+```
+
+
+
+ (c) Informações adicionais do modelo que o CMH não fornece diretamente:
+   - Estimativas de razão de chances ajustadas (OR) com IC para cada covariável;
+   - Tests de Wald individuais para cada nível de distrito;
+   - Possibilidade de incluir interações (e avaliar heterogeneidade do OR entre distritos);
+   - Ajuste de mais covariáveis simultaneamente;
+   - Medidas de ajuste global do modelo (deviance, AIC) e predições de probabilidades ajustadas.
+
+
+
+
+
+
+
+
+

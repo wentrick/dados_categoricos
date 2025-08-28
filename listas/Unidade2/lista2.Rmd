@@ -1,0 +1,152 @@
+---
+title: "Lista de Exercícios 2 — Análise de Dados Categorizados"
+author: "Seu Nome"
+date: "`r format(Sys.Date(), '%d de %B de %Y')`"
+output:
+  html_document:
+    toc: true
+    toc_depth: 2
+    number_sections: true
+---
+
+```{r}
+# --- Exercício 2.33 -------------------------------------------------------
+
+# a) Montar o array 3‑vias: defendant × verdict × victim
+# Dados (1976–77, Florida):
+# Victim = white:
+#   - white killed white:    DP=yes: 19, no: 151 - 19 = 132
+#   - black killed white:    DP=yes: 11, no:  63 - 11 = 52
+# Victim = black:
+#   - white killed black:    DP=yes:  0, no:   9 -  0 =  9
+#   - black killed black:    DP=yes:  6, no:  103 -  6 = 97
+
+victim_white <- matrix(c(
+  19, 132,   # defendant = white → yes, no
+  11,  52    # defendant = black → yes, no
+), nrow = 2, byrow = TRUE,
+   dimnames = list(defendant = c("white","black"),
+                   verdict    = c("yes","no")))
+
+victim_black <- matrix(c(
+   0,   9,
+   6,  97
+), nrow = 2, byrow = TRUE,
+   dimnames = list(defendant = c("white","black"),
+                   verdict    = c("yes","no")))
+
+tbl <- array(c(victim_white, victim_black),
+             dim = c(2,2,2),
+             dimnames = list(
+               defendant = c("white","black"),
+               verdict    = c("yes","no"),
+               victim     = c("white","black")
+             ))
+
+# Veja o resultado:
+tbl
+```
+
+
+```{r}
+# b) Razões de chances condicionais (adicionando 0.5 a cada célula)
+odds_ratio <- function(mat){
+  m2 <- mat + 0.5
+  # OR = (a·d)/(b·c)
+  return((m2[1,1] * m2[2,2]) / (m2[1,2] * m2[2,1]))
+}
+
+cond_OR <- sapply(1:2, function(k) {
+  mat <- tbl[,,k]
+  odds_ratio(mat)
+})
+names(cond_OR) <- paste0("victim=", dimnames(tbl)$victim)
+cond_OR
+
+# Interprete: OR > 1 → chance de pena de morte maior para réu branco, dado regime.
+```
+
+
+```{r}
+# c) Tabela marginal e razão de chances marginal
+marginal <- apply(tbl, c("defendant","verdict"), sum)
+marginal
+
+marginal_OR <- odds_ratio(marginal)
+marginal_OR
+# Se cond_OR são todos < 1 mas marginal_OR > 1 (ou vice‑versa), há "Simpson’s paradox".
+```
+
+
+```{r}
+# --- Exercício 2.34 -------------------------------------------------------
+# Smith e Jones – verificar possibilidade de Simpson’s paradox em batting avg.
+# Suponha que você tenha para cada ano:
+#   hits_Smith_2005, atbats_Smith_2005
+#   hits_Jones_2005, atbats_Jones_2005
+#   hits_Smith_2006, atbats_Smith_2006
+#   hits_Jones_2006, atbats_Jones_2006
+#
+# Aí você faz:
+
+# Exemplo genérico (substitua pelos valores reais):
+hits <- matrix(c(  # linhas: Smith,Jones; colunas: 2005, 2006
+  129,  90,   # Smith
+  100,  80    # Jones
+), nrow=2, byrow=TRUE,
+dimnames = list(player = c("Smith","Jones"),
+                year   = c("2005","2006")))
+
+atbats <- matrix(c(
+  400, 300,   # Smith
+  333, 200    # Jones
+), nrow=2, byrow=TRUE,
+dimnames = dimnames(hits))
+
+# Médias por ano
+avg <- hits / atbats
+round(avg, 3)
+
+# Totais combinados
+hits_tot  <- rowSums(hits)
+ab_tot    <- rowSums(atbats)
+avg_tot   <- hits_tot / ab_tot
+round(avg_tot, 3)
+
+# Veja se em cada ano Smith > Jones mas no combinado Jones > Smith, 
+# ilustrando Simpson’s paradox.
+```
+
+
+```{r}
+# Item 3.8 — Montagem dos dados e teste CMH
+
+# 1) Definir o array 2×2×3: spouse smoked × outcome × country
+smoke <- array(
+  data = c(
+    # Japan
+     21, 82,   73,188,
+    # Great Britain
+      5, 16,   19,  38,
+    # United States
+     71,249,  137,363
+  ),
+  dim = c(2, 2, 3),
+  dimnames = list(
+    spouse  = c("No", "Yes"),
+    outcome = c("Cases", "Controls"),
+    country = c("Japan", "GB", "USA")
+  )
+)
+
+# 2) Teste de Cochran–Mantel–Haenszel (sem correção de continuidade)
+cmh <- mantelhaen.test(smoke, correct = FALSE)
+
+# 3) Exibir resultados
+print(cmh)
+
+
+```
+
+
+

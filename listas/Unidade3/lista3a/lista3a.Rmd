@@ -1,0 +1,84 @@
+---
+title: "lista3a"
+output: html_document
+---
+
+```{r}
+# Coeficientes do modelo (do Table 4.9)
+beta0 <- -3.7771
+beta1 <-  0.1449
+
+# Funções auxiliares
+eta    <- function(LI) beta0 + beta1 * LI              # log‑odds
+p_hat  <- function(LI) plogis(eta(LI))                 # probabilidade predita
+dp_dLI <- function(LI) beta1 * p_hat(LI) * (1 - p_hat(LI))  # derivada dp/dLI
+OR1    <- exp(beta1)                                   # odds‐ratio p/ΔLI=1
+
+# a) p̂(8)
+p8 <- p_hat(8)
+# b) p̂(26)
+p26 <- p_hat(26)
+# c) dp/dLI em 8 e em 26
+d8  <- dp_dLI(8)
+d26 <- dp_dLI(26)
+# d) quartis em LI=14 e LI=28 → aumento em p̂
+p14 <- p_hat(14)
+p28 <- p_hat(28)
+delta_p_14_28 <- p28 - p14
+# e) OR para aumento de 1 em LI
+or1 <- OR1
+
+# Monta data.frame
+df <- data.frame(
+  LI       = c(8, 26, 8, 26, 14, 28, NA),
+  Quantity = c("p̂","p̂","dp/dLI","dp/dLI","p̂","p̂","OR(Δ=1)"),
+  Value    = c(p8, p26, d8, d26, p14, p28, or1)
+)
+
+# Arredonda só a coluna Value
+df$Value <- round(df$Value, 3)
+
+# Exibe a tabela
+print(df)
+
+# Exibe também o Δ em p̂ entre LI=14→28
+cat("Aumento em p̂ de LI=14 → 28:", round(delta_p_14_28, 3), "\n")
+```
+
+```{r}
+# Coeficiente e erro padrão para o efeito LI (da Table 4.9)
+beta1 <- 0.1449
+se1   <- 0.0593
+
+# (a) Wald test para H0: β1 = 0
+z_stat <- beta1 / se1
+p_wald <- 2 * (1 - pnorm(abs(z_stat)))
+cat("Wald z = ", round(z_stat, 3),
+    ", p‑valor = ", round(p_wald, 4), "\n\n")
+
+# (b) Intervalo de confiança (Wald) para OR = exp(β1)
+alpha <- 0.05
+z_crit <- qnorm(1 - alpha/2)
+ci_beta_wald <- beta1 + c(-1, +1) * z_crit * se1
+ci_or_wald   <- exp(ci_beta_wald)
+cat("IC95% Wald para OR: [",
+    round(ci_or_wald[1], 3), ", ",
+    round(ci_or_wald[2], 3), "]\n\n")
+
+# (c) Likelihood‑ratio test para H0: β1 = 0
+# estatística LR já dada na Table 4.9: χ² = 5.96, df = 1
+chi2_lr <- 5.96
+p_lr    <- 1 - pchisq(chi2_lr, df = 1)
+cat("LRT χ² = ", chi2_lr,
+    ", p‑valor = ", round(p_lr, 4), "\n\n")
+
+# (d) IC95% pelo perfil de verossimilhança para β1
+# limites vindos da Table 4.9: (0.0425, 0.2846)
+ci_beta_lr <- c(0.0425, 0.2846)
+ci_or_lr   <- exp(ci_beta_lr)
+cat("IC95% LRT para OR: [",
+    round(ci_or_lr[1], 3), ", ",
+    round(ci_or_lr[2], 3), "]\n")
+
+```
+
